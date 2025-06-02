@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"rest-api/models"
 	"rest-api/services"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,19 @@ func (c *UserController) GetAllUsers(ctx *gin.Context) {
     } else {
     ctx.JSON(http.StatusOK, users)
     }
+}
+
+func (c *UserController) CreateUser(ctx *gin.Context) {
+   //convert input data to json 
+   var user models.User
+    err:= ctx.ShouldBindJSON(&user)
+    id,err := c.service.CreateUser(user)
+
+    if err!=nil{
+        ctx.JSON(http.StatusInternalServerError,nil) 
+    }else{
+        ctx.JSON(http.StatusOK,id)
+    }   
 }
 
 

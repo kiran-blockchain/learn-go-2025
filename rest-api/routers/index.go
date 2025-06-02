@@ -10,6 +10,7 @@ func SetupRouter(userController *controllers.UserController,orderController *con
 
     // Users endpoint
     r.GET("/users", userController.GetAllUsers)
+    r.POST("/users", userController.CreateUser)
 
     r.POST("/orders", orderController.PlaceOrder)
 

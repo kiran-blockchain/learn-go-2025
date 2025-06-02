@@ -40,3 +40,14 @@ func NewUserRepository(database *sql.DB) interfaces.UserRepository {
 }
 
 
+func (r *userRepo) CreateUser(u models.User) (int64,error) {
+	// In a real project, this would interact with the DB.
+	
+	result,err :=r.db.Exec("insert into users (username,email,password_hash) values (?,?,?)",u.Username,u.Email,u.PasswordHash)
+	if err!=nil{
+		return 0,err
+	}else{
+		id,_ := result.LastInsertId()
+		return id,nil
+	}
+}
