@@ -6,8 +6,6 @@ import (
     "log"
     "os"
 
-    //"os"
-
     _ "github.com/go-sql-driver/mysql"
     "github.com/joho/godotenv"
 )
@@ -39,3 +37,4 @@ func ConnectDB()(*sql.DB){
     log.Println("Successfully Connected to Database")
 	return DB
 }
+

@@ -12,7 +12,7 @@ func SetupRouter(userController *controllers.UserController,orderController *con
 
     // Users endpoint
     r.POST("/register", userController.CreateUser)
-    r.POST("/login", userController.Login)
+    r.POST("/login", userController.Login,userController.GetAllUsers)
 
          // Protected endpoints
     auth := r.Group("/auth")

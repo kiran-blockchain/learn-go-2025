@@ -55,10 +55,12 @@ func (c *UserController) Login(ctx *gin.Context) {
     if(err!=nil){
         ctx.JSON(http.StatusInternalServerError,nil) 
     }
-    result,err := c.service.Login(user)
+    _,err = c.service.Login(user)
     if err!=nil{
         ctx.JSON(http.StatusInternalServerError,nil) 
     }else{
-        ctx.JSON(http.StatusOK,result) 
+ 
+        ctx.Next()
+       // ctx.JSON(http.StatusOK,result) 
     }
 }
