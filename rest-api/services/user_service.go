@@ -8,6 +8,7 @@ import (
 type UserService interface {
     GetAllUsers() ([]models.User,error)
    CreateUser(models.User)(int64,error)
+   Login(models.User)(string,error)
 }
 
 type userService struct {
@@ -24,5 +25,8 @@ func (s *userService) GetAllUsers() ([]models.User,error) {
 }
 func (s *userService) CreateUser(m models.User) (int64,error) {
     return s.repo.CreateUser(m)
+}
+func (s *userService) Login(m models.User) (string,error) {
+    return s.repo.Login(m)
 }
 

@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"rest-api/models"
 	"rest-api/services"
+	"rest-api/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,7 +29,12 @@ func (c *UserController) GetAllUsers(ctx *gin.Context) {
 func (c *UserController) CreateUser(ctx *gin.Context) {
    //convert input data to json 
    var user models.User
+   //convert the payload from postman to model
     err:= ctx.ShouldBindJSON(&user)
+    user.PasswordHash,err = utils.HashPassword(user.PasswordHash)
+    if(err!=nil){
+        ctx.JSON(http.StatusInternalServerError,nil) 
+    }
     id,err := c.service.CreateUser(user)
 
     if err!=nil{
@@ -39,3 +45,20 @@ func (c *UserController) CreateUser(ctx *gin.Context) {
 }
 
 
+
+func (c *UserController) Login(ctx *gin.Context) {
+   //convert input data to json 
+   var user models.User
+   //convert the payload from postman to model
+    err:= ctx.ShouldBindJSON(&user)
+    
+    if(err!=nil){
+        ctx.JSON(http.StatusInternalServerError,nil) 
+    }
+    result,err := c.service.Login(user)
+    if err!=nil{
+        ctx.JSON(http.StatusInternalServerError,nil) 
+    }else{
+        ctx.JSON(http.StatusOK,result) 
+    }
+}
