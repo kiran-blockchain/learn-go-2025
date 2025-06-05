@@ -5,6 +5,13 @@ package model
 type Mutation struct {
 }
 
+type NewProduct struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Price       string `json:"price"`
+	Description string `json:"description"`
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`
@@ -13,6 +20,13 @@ type NewTodo struct {
 type NewUser struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
+}
+
+type Product struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Price       string `json:"price"`
+	Description string `json:"description"`
 }
 
 type Query struct {

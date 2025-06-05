@@ -3,6 +3,8 @@ package graph
 //go:generate go run github.com/99designs/gqlgen generate
 import (
 	"go-gql-app/graph/model"
+
+	"gorm.io/gorm"
 )
 
 // This file will not be regenerated automatically.
@@ -12,5 +14,8 @@ import (
 type Resolver struct{
 	todos []*model.Todo
 	users []*model.User
+	products []*model.Product
+	DB *gorm.DB
+
 }
 

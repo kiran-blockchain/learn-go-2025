@@ -19,29 +19,52 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 		Text: input.Text,
 		ID:   fmt.Sprintf("T%d", randNumber),
 		User: &model.User{ID: input.UserID, Name: "user " + input.UserID},
-
 	}
 	r.todos = append(r.todos, todo)
 	return todo, nil
+}
+
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+	user := &model.User{ID: input.ID,
+		Name: "user " + input.Name}
+	r.users = append(r.users, user)
+	return user, nil
+}
+
+// CreateProduct is the resolver for the createProduct field.
+func (r *mutationResolver) CreateProduct(ctx context.Context, input *model.NewProduct) (*model.Product, error) {
+	product := &model.Product{
+		Name:        input.Name,
+		Description: input.Description,
+		Price:       input.Price,
+	}
+
+	if err := r.DB.Create(product).Error; err != nil {
+		return nil, err
+	}
+	return product, nil
 }
 
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.todos, nil
 }
-// CreateUser is the resolver for the createUser field.
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	
-	user :=  &model.User{ID: input.ID, 
-			Name: "user " + input.Name,}
-	r.users = append(r.users, user)
-	return user, nil
-}
 
-
+//	if err := r.DB.Create(order).Error; err != nil {
+//					return nil, err
+//				}
+//				return order, nil
+//			}
+//
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	return r.users, nil
+}
+
+// Products is the resolver for the products field.
+func (r *queryResolver) Products(ctx context.Context) ([]*model.Product, error) {
+	panic(fmt.Errorf("not implemented: Products - products"))
 }
 
 // Mutation returns MutationResolver implementation.
