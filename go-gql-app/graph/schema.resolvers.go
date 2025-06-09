@@ -6,30 +6,26 @@ package graph
 
 import (
 	"context"
-	"crypto/rand"
-	"fmt"
+	"go-gql-app/dbmodels"
 	"go-gql-app/graph/model"
-	"math/big"
 )
-
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	randNumber, _ := rand.Int(rand.Reader, big.NewInt(100))
-	todo := &model.Todo{
-		Text: input.Text,
-		ID:   fmt.Sprintf("T%d", randNumber),
-		User: &model.User{ID: input.UserID, Name: "user " + input.UserID},
-	}
-	r.todos = append(r.todos, todo)
-	return todo, nil
-}
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	user := &model.User{ID: input.ID,
-		Name: "user " + input.Name}
-	r.users = append(r.users, user)
-	return user, nil
+	user := &dbmodels.UserDB{
+		Name:     input.Email,
+		Email:    input.Email,
+		Password: input.Password,
+	}
+	if err := r.DB.Table("users").Create(user).Error; err != nil {
+		return nil, err
+	}
+	return &model.User{
+        ID:    string(user.ID),
+        Name:  user.Name,
+        Email: user.Email,
+        // Don't send password
+    }, nil
 }
 
 // CreateProduct is the resolver for the createProduct field.
@@ -46,25 +42,24 @@ func (r *mutationResolver) CreateProduct(ctx context.Context, input *model.NewPr
 	return product, nil
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	return r.todos, nil
-}
-
 //	if err := r.DB.Create(order).Error; err != nil {
-//					return nil, err
-//				}
-//				return order, nil
-//			}
+//												return nil, err
+//											}
+//											return order, nil
+//										}
 //
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	return r.users, nil
+	var users []*model.User
+	r.DB.Table("users").Find(&users)
+	return users, nil
 }
 
 // Products is the resolver for the products field.
 func (r *queryResolver) Products(ctx context.Context) ([]*model.Product, error) {
-	panic(fmt.Errorf("not implemented: Products - products"))
+	var products []*model.Product
+	r.DB.Table("products").Find(&products)
+	return products, nil
 }
 
 // Mutation returns MutationResolver implementation.

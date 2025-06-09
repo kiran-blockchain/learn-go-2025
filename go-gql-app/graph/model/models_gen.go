@@ -12,34 +12,31 @@ type NewProduct struct {
 	Description string `json:"description"`
 }
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
-}
-
 type NewUser struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type Product struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Price       string `json:"price"`
-	Description string `json:"description"`
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	Price       string  `json:"price"`
+	Description string  `json:"description"`
+	CreatedAt   *string `json:"createdAt,omitempty"`
+	DeletedAt   *string `json:"deletedAt,omitempty"`
+	UpdatedAt   *string `json:"updatedAt,omitempty"`
 }
 
 type Query struct {
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
-}
-
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID        string  `json:"id"`
+	Name      string  `json:"name"`
+	Email     string  `json:"email"`
+	Password  string  `json:"password"`
+	CreatedAt *string `json:"createdAt,omitempty"`
+	DeletedAt *string `json:"deletedAt,omitempty"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
