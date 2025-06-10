@@ -7,8 +7,8 @@ import (
     "strings"
 
     "golang.org/x/crypto/bcrypt"
-    "github.com/go-redis/redis/v9"
-    "go_chat/redis"
+    "github.com/redis/go-redis/v9"
+    "github.com/kiran-blockchain/go_chat_with_redis/redisclient"
 )
 
 type Credentials struct {
@@ -28,7 +28,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     key := "user:" + creds.Username
-    err = redis.Rdb.HSet(redis.Ctx, key, "password", hashedPassword).Err()
+    err = redisclient.Rdb.HSet(redisclient.Ctx, key, "password", hashedPassword).Err()
     if err != nil {
         http.Error(w, "Error saving user", http.StatusInternalServerError)
         return
@@ -43,7 +43,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
     creds.Username = strings.ToLower(creds.Username)
 
     key := "user:" + creds.Username
-    storedHash, err := redis.Rdb.HGet(redis.Ctx, key, "password").Result()
+    storedHash, err := redisclient.Rdb.HGet(redisclient.Ctx, key, "password").Result()
     if err == redis.Nil {
         http.Error(w, "User not found", http.StatusUnauthorized)
         return

@@ -6,7 +6,7 @@ import (
     "log"
     "net/http"
 
-    "go_chat/handlers"
+    "github.com/kiran-blockchain/go_chat_with_redis/handlers"
 )
 
 func main() {
