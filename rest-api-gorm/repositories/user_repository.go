@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"errors"
+
 	"github.com/kiran-blockchain/rest-api-gorm/interfaces"
 	"github.com/kiran-blockchain/rest-api-gorm/models"
 	"gorm.io/gorm"
@@ -18,6 +20,6 @@ func (u *userRepo) GetAllUsers()([]models.User,error){
 	var users []models.User
 	u.db.Table("users").Find(&users)
 	//fmt.Println(users)
-	return users,nil
+	return users,errors.New("I got an error")
 }
 
