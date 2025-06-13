@@ -15,6 +15,18 @@ func slowFunction() {
 	fmt.Println("Sum:", sum)
 }
 
+var memoryLeak [][]byte // package-level slice to retain data
+
+func slowFunction2() {
+    // Allocate 1MB memory 10 times (10 MB per call)
+    for i := 0; i < 10; i++ {
+        b := make([]byte, 1024*1024) // 1MB
+        memoryLeak = append(memoryLeak, b) // retain to simulate memory use
+    }
+    fmt.Println("Allocated 10MB")
+}
+
+
 func main() {
 	// Start the pprof server
 	go func() {
@@ -26,6 +38,12 @@ func main() {
 	go func() {
 		for {
 			slowFunction()
+			time.Sleep(1 * time.Second)
+		}
+	}()
+go func() {
+		for {
+			slowFunction2()
 			time.Sleep(1 * time.Second)
 		}
 	}()
