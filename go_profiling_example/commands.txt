@@ -1,0 +1,12 @@
+run the main.go in one terminal
+open another terminal
+for heap profiling
+go tool pprof http://localhost:6060/debug/pprof/heap?seconds=15
+
+list someFunction2
+pdf heap_profile.pdf
+
+
+for time profiling
+go tool pprof http://localhost:6060/debug/pprof/profile?seconds=10
+pdf cpu_profile.pdf
