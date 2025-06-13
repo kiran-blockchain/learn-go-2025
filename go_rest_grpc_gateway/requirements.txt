@@ -1,0 +1,10 @@
+As a user i want to send data from 
+my post man to localhost:8080/1
+
+my rest ful server recevies the data and send 
+this information to grpc server
+on receving thie message grpc server should be 
+replied back with the new data 
+
+rest->handler->grpc server 
+grpc server -handler - rest
